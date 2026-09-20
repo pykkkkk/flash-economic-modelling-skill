@@ -6,8 +6,6 @@
 
 # econ-modeling-flash
 
-version：1.0.0
-
 **From a real-world phenomenon to a defensible economic model — in 9 guided steps.**
 
 *A beginner-friendly, research-grade toolkit for building small economic models.*
@@ -82,7 +80,7 @@ python scripts/selftest.py     # expected:  Cases: 55 | passed: 55 | failed: 0
 
 **3 · Just describe a phenomenon.** For example:
 
-> *"Internet usage can improve the income of worker， Can economics explain why?"*
+> *"Tutoring prices were capped and the sector shrank ~90%, yet household spending on tutoring went **up**. Can economics explain why?"*
 
 **4 · Answer two questions** — *classic or novel* explanation, and *which field* (education, labour, IO…). The skill takes it from there, **one step at a time**, writing every step to disk.
 
@@ -228,8 +226,8 @@ New to economics, or want to build models that actually convince? These are the 
 
 **It won't:**
 
-- ✋ **Chase top-journal originality.** It targets *passing*, not *excellence*. 
-- ✋ **Run your regressions.** No micro data, no estimation. 
+- ✋ **Chase top-journal originality.** It targets *passing*, not *excellence*. For a serious theory paper, use the heavy `pAI-Econ-claude-main` workflow.
+- ✋ **Run your regressions.** No micro data, no estimation. For causal identification, use `causal-infer-master`.
 - ✋ **Read the literature for you.** It provides leads and a must-read list; the argument still demands going back to the original papers.
 - ✋ **Install software.** It uses only the Python environment already present.
 - ✋ **Turn a self-assessment into peer review.** The S8/S8.1 review is *simulated* — structured, honest, and clearly labelled as such.

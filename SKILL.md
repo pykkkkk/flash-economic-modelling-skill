@@ -245,6 +245,25 @@ When a gate fails, **tell the user explicitly** — do not let it pass silently.
 | `scripts/review_score.py` | S8 / S8.1: score aggregation, banding, disagreement diagnosis |
 | `scripts/audit_model.py` | Gate G7 / every revision: symbol-table completeness, parameter consistency, numeric regression, deliverable hygiene, claim safety |
 | `scripts/selftest.py` | **Before first use**, or after changing the scripts: verifies parsing/solving/review/audit computation have not regressed (55 cases) |
+| `scripts/update_skill.py` | Updating the skill: `check` compares the local `VERSION` with the latest GitHub Release; `update` backs up and syncs (source of truth: Release tags) |
+
+---
+
+## Updating this skill
+
+This skill can update itself from its GitHub Release tags. Two subcommands ship in `scripts/update_skill.py` (Python standard library only — no extra dependencies):
+
+```bash
+python scripts/update_skill.py check    # compare local VERSION with the latest GitHub Release
+python scripts/update_skill.py update   # back up the current skill, then download and sync the latest Release
+```
+
+Conventions:
+- The single source of truth for the version is the `VERSION` file at the skill root; `CHANGELOG.md` records every change.
+- Updates are pulled from **GitHub Release tags** (stable, reversible) — never from a moving branch.
+- On every activation of this skill, run `check` first (silent, non-destructive) so you are told when a newer release exists.
+- `update` writes a timestamped backup to `../_backups/econ-modeling-flash_<timestamp>/` before overwriting, so you can always roll back.
+- **After `update`, restart the session** for the new code to take effect.
 
 ---
 

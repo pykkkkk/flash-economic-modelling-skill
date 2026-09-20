@@ -82,7 +82,7 @@ Load this skill when:
 | **S1** | Describe the phenomenon | Understand it and map its elements | Verify it online; identify stakeholders and institutional setting; list candidate theories; anticipate the modeling approach | `S1_phenomenon.md` |
 | **S2** | Fix the perspective | Choose field and style | Ask "classic or novel explanation"; fix the disciplinary perspective; search classic + frontier work in that field | `S2_perspective.md` |
 | **S3** | Core assumptions | Make premises explicit | Normalize the user's assumptions; propose additional candidates; lock in the economic theory | `S3_assumptions.md` |
-| **S4** | Build and solve the model | Construct and solve | Build and solve in Python; annotate each equation's basis; prefer fast methods, simplify if hard | `S4_model.md` + `S4_model.py` |
+| **S4** | Build and solve the model | Construct and solve | Apply the **four-step method** (minimize → classic form → relax → extend, see `references/four_step_method.md`); build & solve in Python; annotate each equation's basis; prefer fast methods, simplify if hard | `S4_model.md` + `S4_model.py` |
 | **S5** | Checks | Guarantee correctness and acceptability | Five hard checks: notation, consistency, solution, boundaries, dimensions | `S5_checks.md` |
 | **S6** | Form the report | Deliver the model write-up | Assumptions / parameters / propositions / results / economic interpretation | `S6_model_report.md` |
 | **S7** | Extend | Thicken the model | Sensitivity analysis, relaxing/adding assumptions, heterogeneity | `S7_extension.md` + `figs/` |
@@ -114,6 +114,7 @@ then **propose additional assumptions** (2–4 candidates at a time, each saying
 finally lock in **one leading economic theory** (e.g. consumer utility maximization, firm profit maximization, principal–agent, search and matching, game-theoretic equilibrium, externalities/public goods).
 
 **S4 Build and solve the model** — Re-check the perspective and the assumptions → write the model (notation table, timing, equilibrium concept) →
+**S4 must follow the four-step method (minimize → classic form → selective relaxation → dimension extension; see `references/four_step_method.md`)**: first add the tightest constraints to reach a solvable baseline, then pair with classic functions; relaxation and extension are done in S7. →
 **use `scripts/econ_solve.py` for symbolic solution, comparative statics and numerical verification** → annotate each equation's basis → state the propositions.
 If solving is hard, degrade per Global Rule 5 and tell the user.
 Default language is Python (use `scripts/econ_solve.py`; interpreter path under "Runtime environment").
@@ -236,6 +237,7 @@ When a gate fails, **tell the user explicitly** — do not let it pass silently.
 | File | When to load |
 |------|---------|
 | `references/steps.md` | **Before executing each step**, read that step's subsection (question script, action list, delivery template) |
+| `references/four_step_method.md` | **S4** (+ S7): the four-step economic modeling method (minimize → classic form → relax constraints → dimension extension), the mandatory SOP for S4 |
 | `references/theory_toolbox.md` | S2, S3, S4: perspective → theory → classic model → must-read literature map; modeling-approach selection |
 | `references/modeling_cookbook.md` | S3, S4, S5: functional-form library, solution recipes, comparative-statics techniques, **notation conventions**, **the parsimony principle**, common-error list |
 | `references/review_rubric.md` | S8 / S8.1: reviewer roles, 6-dimension weighted scoring table, banding criteria, disagreement and agreement handling |

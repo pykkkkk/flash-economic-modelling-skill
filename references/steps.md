@@ -211,10 +211,21 @@ For each, state "what becomes rigorous if we add it" and "what hole is left if w
 
 **Purpose**: write the model and solve it, with **every equation grounded in the literature or in theory**.
 
+### The four-step method (mandatory SOP for S4)
+
+S4's modeling and solving **must** follow the "four-step method" (full method in `references/four_step_method.md`). Key points:
+
+- **Step 1 Minimize**: impose the **tightest constraining** assumption on each of the four elements — environment / preferences / technology / information — compressing the model to the smallest scale that still yields a closed-form solution and signed comparative statics. ⚠️ Add *constraints* to make the model *smaller* — do **not** "propose many assumptions".
+- **Step 2 Classic form**: pair the Step 1 specification with textbook-standard functions (Cobb-Douglas / CES / quasi-linear utility + linear budget + linear/quadratic cost) and a **minimal variable set** (1–2 decision variables + 1 policy/price variable); the mechanism must be "visible at a glance".
+- **Step 3 Relax constraints (robustness)**: performed in **S7**. Relax Step 1's assumptions one by one; **keep only the assumptions whose relaxation would flip a core comparative-static sign**; those that change only magnitude may be relaxed as robustness; those irrelevant to the core mechanism are dropped.
+- **Step 4 Form & dimension extension (new questions)**: performed in **S7**, layered separately from Step 3 — change functional form (CD→CES for substitution elasticity), add independent variables, add heterogeneity, add dynamics, add general equilibrium, to "tell more of the story" rather than to test the conclusion.
+
+**Criterion**: if Step 1 still cannot yield comparative statics, the constraints are not yet tight enough (not "too few assumptions"). The baseline model must satisfy parsimony (≤5 parameters, ≤3 endogenous variables).
+
 ### Action list
 
 1. **Re-check gate** (do this first; do not enter S4 if it fails): are the perspective and assumptions still reasonable? Is S2's style baseline respected?
-2. **The four-part model write-up**
+2. **The four-part model write-up** (this implements **Step 2 Classic form** on top of the **Step 1** minimized setup — see the "The four-step method" subsection above)
    - **Notation table** (before the equations): symbol | meaning | type (parameter/endogenous/exogenous) | range | unit
    - **Environment and timing**: who knows what and does what, when (1–4 steps)
    - **Individual problems**: $\max/\min$ objective + constraints (annotate the basis of each expression)
@@ -242,6 +253,12 @@ For each, state "what becomes rigorous if we add it" and "what hole is left if w
 # S4 Model construction and solution
 ## 0. Re-check (perspective/assumptions/style)
 ## 1. Notation table
+## 1.5 Four-step method log (Step 1 Minimize → Step 2 Classic form)
+| Step | What this model does | Criterion met? |
+|------|----------------------|----------------|
+| Step 1 Minimize | Tightest constraining assumptions listed (one each for environment/preferences/technology/information) | Closed form + signed comparative statics obtained |
+| Step 2 Classic form | Standard functions and minimal variable set chosen | Mechanism visible at a glance |
+| (Step 3 / 4 → see S7) | — | — |
 ## 2. Environment and timing
 ## 3. Individual optimization problems (basis per equation)
 | Eq. | Formula | Basis |

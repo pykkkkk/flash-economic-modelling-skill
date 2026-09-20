@@ -3,8 +3,8 @@
 """
 audit_model.py —— pre-delivery audit for an econ-modeling-flash deliverable
 ===========================================================================
-Purpose: automate the checks that caught real defects during the double-reduction
-project. Every check below corresponds to a defect class that actually occurred.
+Purpose: automate the checks that caught real defects during skill development and
+real modeling work. Every check below corresponds to a defect class that actually occurred.
 
   1. `--lint` / `--solver`   symbol-table completeness + PARAMETER CONSISTENCY
        - every symbol needs meaning / domain / unit / source

@@ -226,8 +226,8 @@ New to economics, or want to build models that actually convince? These are the 
 
 **It won't:**
 
-- ✋ **Chase top-journal originality.** It targets *passing*, not *excellence*. For a serious theory paper, use the heavy `pAI-Econ-claude-main` workflow.
-- ✋ **Run your regressions.** No micro data, no estimation. For causal identification, use `causal-infer-master`.
+- ✋ **Chase top-journal originality.** It targets *passing*, not *excellence*. 
+- ✋ **Run your regressions.** No micro data, no estimation. 
 - ✋ **Read the literature for you.** It provides leads and a must-read list; the argument still demands going back to the original papers.
 - ✋ **Install software.** It uses only the Python environment already present.
 - ✋ **Turn a self-assessment into peer review.** The S8/S8.1 review is *simulated* — structured, honest, and clearly labelled as such.

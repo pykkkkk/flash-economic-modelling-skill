@@ -80,7 +80,7 @@ python scripts/selftest.py     # expected:  Cases: 55 | passed: 55 | failed: 0
 
 **3 · Just describe a phenomenon.** For example:
 
-> *"Tutoring prices were capped and the sector shrank ~90%, yet household spending on tutoring went **up**. Can economics explain why?"*
+> *"Internet usage can improve the income of worker， Can economics explain why?"*
 
 **4 · Answer two questions** — *classic or novel* explanation, and *which field* (education, labour, IO…). The skill takes it from there, **one step at a time**, writing every step to disk.
 

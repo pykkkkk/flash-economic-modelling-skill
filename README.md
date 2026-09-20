@@ -6,6 +6,8 @@
 
 # econ-modeling-flash
 
+*version：1.0.0*
+
 **From a real-world phenomenon to a defensible economic model — in 9 guided steps.**
 
 *A beginner-friendly, research-grade toolkit for building small economic models.*

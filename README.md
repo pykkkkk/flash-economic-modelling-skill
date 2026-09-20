@@ -6,7 +6,7 @@
 
 # econ-modeling-flash
 
-*version：1.0.0*
+version：1.0.0
 
 **From a real-world phenomenon to a defensible economic model — in 9 guided steps.**
 

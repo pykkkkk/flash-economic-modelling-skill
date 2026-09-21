@@ -22,7 +22,7 @@ The *reader* of what you produce is assumed to be economically literate — writ
 | Constraint | Meaning |
 |------|---------|
 | **Parsimony** | No complicated functional forms; keep the parameter count down (**a baseline model must have ≤ 5 parameters and ≤ 3 endogenous variables**); the model must *look* clean and intuitive — it should fit on one page. A new parameter or assumption must *earn its place* by changing a conclusion or a comparative-static sign; otherwise drop it. |
-| **Rigour** | Every assumption, proposition and equation **must be grounded in the literature or in theory**; the literature must span **both classic foundations and the last ten years**; notation must follow mathematical and economic convention; every solution must be verifiable. After every change, the model must pass the pre-delivery audit. |
+| **Rigour** | Every assumption, proposition and equation **must be grounded in the literature or in theory** — and the deliverable must state **how** the source supports it (evidence-based modeling, Global Rule 3); the literature must span **both classic foundations and the last ten years**; notation must follow mathematical and economic convention; every solution must be verifiable. After every change, the model must pass the pre-delivery audit. |
 | **Practical relevance** | The model must answer a *real* question and yield a *communicable* insight — a management or "life-economics" principle the reader can act on or cite. It serves research, not entertainment: no toy exercises whose only point is to run the solver. State plainly what the model can and cannot tell the reader. |
 
 ### What counts as "passing"
@@ -55,8 +55,8 @@ Load this skill when:
 2. **Literature must be verified online; fabrication is forbidden.** Every citation that enters a deliverable must be checked in this session with `WebSearch`/`WebFetch`
    (authors, year, title, journal, volume/issue/pages). Verified items are tagged `[VERIFIED]` with a source; unverifiable items are tagged `[UNVERIFIED]` and
    **must not enter the reference list of the final paper**. Language models produce "very plausible" fake references — internal confidence is not evidence.
-3. **Every equation needs a basis.** For every functional form and every key assumption, state the source:
-   classic literature / textbook / institutional fact / author's own construction (own constructions must be labelled "a simplifying assumption made for tractability").
+3. **Evidence-based modeling (binding principle).** Every **key content item** — each functional form, key assumption, parameter restriction and major modeling choice — must carry **(a)** a **support source** (classic literature / textbook / stylized empirical regularity / axiomatic requirement / a labelled own construction) **and (b)** a **link sentence** stating *how* that source supports it here (source + the property it provides + why this model needs that property).
+   **A bare citation is not evidence.** Every `S4_model.md` and `S6_model_report.md` must carry an **evidence table (E-table)**. Full specification, support types and anti-patterns: `references/evidence_based_modeling.md`.
 4. **Label the epistemic status honestly.** Strictly distinguish:
    - **Analytical result** (a proof or symbolic derivation exists)
    - **Numerical illustration** (a computation at finite parameter values; not general)
@@ -82,7 +82,7 @@ Load this skill when:
 | **S1** | Describe the phenomenon | Understand it and map its elements | Verify it online; identify stakeholders and institutional setting; list candidate theories; anticipate the modeling approach | `S1_phenomenon.md` |
 | **S2** | Fix the perspective | Choose field and style | Ask "classic or novel explanation"; fix the disciplinary perspective; search classic + frontier work in that field | `S2_perspective.md` |
 | **S3** | Core assumptions | Make premises explicit | Normalize the user's assumptions; propose additional candidates; lock in the economic theory | `S3_assumptions.md` |
-| **S4** | Build and solve the model | Construct and solve | Apply the **four-step method** (minimize → classic form → relax → extend, see `references/four_step_method.md`); build & solve in Python; annotate each equation's basis; prefer fast methods, simplify if hard | `S4_model.md` + `S4_model.py` |
+| **S4** | Build and solve the model | Construct and solve | Apply the **four-step method** (minimize → classic form → relax → extend, see `references/four_step_method.md`); build & solve in Python; annotate each equation's basis with a **link sentence** and fill the **evidence table** (Global Rule 3); prefer fast methods, simplify if hard | `S4_model.md` + `S4_model.py` |
 | **S5** | Checks | Guarantee correctness and acceptability | Five hard checks: notation, consistency, solution, boundaries, dimensions | `S5_checks.md` |
 | **S6** | Form the report | Deliver the model write-up | Assumptions / parameters / propositions / results / economic interpretation | `S6_model_report.md` |
 | **S7** | Extend | Thicken the model | Sensitivity analysis, relaxing/adding assumptions, heterogeneity | `S7_extension.md` + `figs/` |
@@ -115,7 +115,7 @@ finally lock in **one leading economic theory** (e.g. consumer utility maximizat
 
 **S4 Build and solve the model** — Re-check the perspective and the assumptions → write the model (notation table, timing, equilibrium concept) →
 **S4 must follow the four-step method (minimize → classic form → selective relaxation → dimension extension; see `references/four_step_method.md`)**: first add the tightest constraints to reach a solvable baseline, then pair with classic functions; relaxation and extension are done in S7. →
-**use `scripts/econ_solve.py` for symbolic solution, comparative statics and numerical verification** → annotate each equation's basis → state the propositions.
+**use `scripts/econ_solve.py` for symbolic solution, comparative statics and numerical verification** → annotate each equation's basis **with a link sentence**, and complete the **evidence table (E-table)** per Global Rule 3 → state the propositions.
 If solving is hard, degrade per Global Rule 5 and tell the user.
 Default language is Python (use `scripts/econ_solve.py`; interpreter path under "Runtime environment").
 
@@ -171,7 +171,7 @@ Do not interrogate repeatedly in the name of rigour; when the user clearly wants
 - **Solver engine**: `scripts/econ_solve.py` (symbolic solution / comparative statics / numerical sweeps and plots / notation lint)
 - **Review tool**: `scripts/review_score.py` (score aggregation, banding, reviewer disagreement and agreement coefficient)
 - **Self-test**: `scripts/selftest.py` (verifies the parser, solver, reviewer and auditor have not regressed; **run it before first use and after any change to the scripts**)
-- **Pre-delivery audit**: `scripts/audit_model.py` (symbol-table completeness, parameter consistency, numeric regression after a revision, deliverable hygiene, claim safety; **run it as gate G7 before you call the model "done"**)
+- **Pre-delivery audit**: `scripts/audit_model.py` (symbol-table completeness, parameter consistency, numeric regression after a revision, deliverable hygiene, claim safety, evidence-based grounding `--evidence`; **run it as gates G7 + G8 before you call the model "done"**)
 - **PowerShell note**: on this machine `bash` is broken, so use the PowerShell tool for commands; PowerShell does not return stdout,
   so **write results to a UTF-8 file and read them back**, or have the script write its own report to a file.
 
@@ -227,6 +227,7 @@ econ_model_<slug>/
 | **G5 Evidence gate** | Is every reference `[VERIFIED]`? Are numerical conclusions labelled "numerical illustration"? | Verify or delete the citation/conclusion |
 | **G6 Wording gate** | Any "we prove" about numerical results, "in general" about a finite grid, "robust" about a single point? | Rewrite the wording |
 | **G7 Audit gate** | Has `scripts/audit_model.py` been run and returned **0 FAIL**? Are solver values consistent with the symbol table (no "one symbol, two values")? Did a post-S8 revision re-run S8.1? | Run the audit + self-test; do not finalize until 0 FAIL |
+| **G8 Grounding gate** (evidence-based modeling) | Does every functional form / key assumption / parameter restriction have a support source **and** a link sentence saying *how* it supports? Is the E-table present and complete? Are own constructions labelled? (Check: `audit_model.py --evidence S4_model.md S6_model_report.md`) | Go back to S3/S4, write the missing links or drop the unjustified item |
 
 When a gate fails, **tell the user explicitly** — do not let it pass silently.
 
@@ -238,6 +239,7 @@ When a gate fails, **tell the user explicitly** — do not let it pass silently.
 |------|---------|
 | `references/steps.md` | **Before executing each step**, read that step's subsection (question script, action list, delivery template) |
 | `references/four_step_method.md` | **S4** (+ S7): the four-step economic modeling method (minimize → classic form → relax constraints → dimension extension), the mandatory SOP for S4 |
+| `references/evidence_based_modeling.md` | **S3, S4, S5, S6**: the binding evidence-based modeling principle — support types, the "how it supports" link sentence, the E-table, anti-patterns (gate G8) |
 | `references/theory_toolbox.md` | S2, S3, S4: perspective → theory → classic model → must-read literature map; modeling-approach selection |
 | `references/modeling_cookbook.md` | S3, S4, S5: functional-form library, solution recipes, comparative-statics techniques, **notation conventions**, **the parsimony principle**, common-error list |
 | `references/review_rubric.md` | S8 / S8.1: reviewer roles, 6-dimension weighted scoring table, banding criteria, disagreement and agreement handling |
@@ -245,8 +247,8 @@ When a gate fails, **tell the user explicitly** — do not let it pass silently.
 | `assets/model_report_template.md` | S6: the model-report delivery template |
 | `scripts/econ_solve.py` | S4, S5, S7: symbolic solution / comparative statics / numerical sweeps and plots / notation lint |
 | `scripts/review_score.py` | S8 / S8.1: score aggregation, banding, disagreement diagnosis |
-| `scripts/audit_model.py` | Gate G7 / every revision: symbol-table completeness, parameter consistency, numeric regression, deliverable hygiene, claim safety |
-| `scripts/selftest.py` | **Before first use**, or after changing the scripts: verifies parsing/solving/review/audit computation have not regressed (55 cases) |
+| `scripts/audit_model.py` | Gates G7 + G8 / every revision: symbol-table completeness, parameter consistency, numeric regression, deliverable hygiene, claim safety, evidence-based grounding (`--evidence`) |
+| `scripts/selftest.py` | **Before first use**, or after changing the scripts: verifies parsing/solving/review/audit computation have not regressed (57 cases) |
 | `scripts/update_skill.py` | Updating the skill: `check` compares the local `VERSION` with the latest GitHub Release; `update` backs up and syncs (source of truth: Release tags) |
 
 ---

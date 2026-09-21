@@ -23,6 +23,9 @@ real modeling work. Every check below corresponds to a defect class that actuall
        - "passed peer review"-style statements must be marked as simulated
        - numeric results should carry a calibration / illustration qualifier
        - `--require "text"` strings must be present (e.g. a "must not claim" section)
+  5. `--evidence FILE`   EVIDENCE-BASED MODELING (gate G8)
+       - a deliverable containing equations must state a basis / "how it supports" marker
+         for its key items (Global Rule 3); warns when equations appear with no such marker
 
 Usage
   <python> audit_model.py --lint spec_lint.json --solver spec_foc.json --solver spec_sim.json \
@@ -414,6 +417,40 @@ def check_claims(path, requires):
 
 
 # --------------------------------------------------------------------------- #
+# check 5: evidence-based modeling (gate G8)
+# --------------------------------------------------------------------------- #
+# Bilingual markers: deliverables follow the conversation language, so accept both.
+EVIDENCE_MARKERS = ["依据", "构造依据", "支撑", "如何支撑", "证据表", "来源说明",
+                    "basis", "justification", "how it supports", "evidence table",
+                    "support type", "grounded in"]
+MATH_SPAN_RE = re.compile(r"\$[^$\n]{2,}\$")
+EQ_LINE_RE = re.compile(r"[A-Za-z]\s*=\s*[^=]")
+
+
+def check_evidence(path):
+    """WARN when a deliverable contains equations but states no basis for them."""
+    txt, err = read_text(path)
+    if err:
+        add(LEVEL_FAIL, "evidence", err, path)
+        return
+    spans = len(MATH_SPAN_RE.findall(txt))
+    eq_lines = sum(1 for ln in txt.splitlines() if EQ_LINE_RE.search(ln))
+    has_math = spans >= 1 or eq_lines >= 2
+    low = txt.lower()  # markers are matched case-insensitively (headings are capitalised)
+    marker_hits = [m for m in EVIDENCE_MARKERS if m.lower() in low]
+    if has_math and not marker_hits:
+        add(LEVEL_WARN, "evidence",
+            "contains equations (math spans: %d, equation-like lines: %d) but no stated basis / "
+            "'how it supports' marker -- evidence-based modeling requires a support source AND a "
+            "link sentence for every key item (Global Rule 3 / gate G8)" % (spans, eq_lines), path)
+    elif marker_hits:
+        add(LEVEL_INFO, "evidence",
+            "basis / evidence markers found: %s" % ", ".join(marker_hits[:4]), path)
+    else:
+        add(LEVEL_INFO, "evidence", "no equations detected; nothing to check", path)
+
+
+# --------------------------------------------------------------------------- #
 # main
 # --------------------------------------------------------------------------- #
 def main(argv=None):
@@ -423,6 +460,8 @@ def main(argv=None):
     ap.add_argument("--regress", action="append", default=[], help="OLD.json:NEW.json")
     ap.add_argument("--scan", action="append", default=[], help="file or directory to scan")
     ap.add_argument("--claims", action="append", default=[], help="deliverable to check for unsafe claims")
+    ap.add_argument("--evidence", action="append", default=[],
+                    help="deliverable(s) to check for an evidence table / stated basis (gate G8)")
     ap.add_argument("--require", action="append", default=[], help="text that must be present in --claims files")
     ap.add_argument("--tol", type=float, default=1e-9, help="numeric regression tolerance (relative)")
     ap.add_argument("--out", help="markdown report")
@@ -449,8 +488,8 @@ def write_text(path, text):
 
 def run(args):
     del ISSUES[:]           # reset module-level state, so repeated invocations do not accumulate
-    if not any([args.lint, args.solver, args.regress, args.scan, args.claims]):
-        add(LEVEL_WARN, "audit", "nothing to do: pass at least one of --lint / --solver / --regress / --scan / --claims")
+    if not any([args.lint, args.solver, args.regress, args.scan, args.claims, args.evidence]):
+        add(LEVEL_WARN, "audit", "nothing to do: pass at least one of --lint / --solver / --regress / --scan / --claims / --evidence")
 
     # 1) table + parameter consistency
     if args.lint or args.solver:
@@ -494,13 +533,18 @@ def run(args):
     for c in args.claims:
         check_claims(c, args.require)
 
+    # 5) evidence-based modeling (gate G8)
+    for e in args.evidence:
+        check_evidence(e)
+
     # report
     fails = [i for i in ISSUES if i[0] == LEVEL_FAIL]
     warns = [i for i in ISSUES if i[0] == LEVEL_WARN]
     L = ["# Pre-delivery audit", "",
          "- Generated at: %s" % datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-         "- Checks run: table=%s regress=%s scan=%d file(s) claims=%d file(s)"
-         % (bool(args.lint or args.solver), bool(args.regress), len(targets), len(args.claims)),
+         "- Checks run: table=%s regress=%s scan=%d file(s) claims=%d file(s) evidence=%d file(s)"
+         % (bool(args.lint or args.solver), bool(args.regress), len(targets),
+            len(args.claims), len(args.evidence)),
          "",
          "- **FAIL: %d | WARN: %d | INFO: %d**" % (len(fails), len(warns),
                                                   len([i for i in ISSUES if i[0] == LEVEL_INFO])),

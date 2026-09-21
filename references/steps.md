@@ -185,8 +185,12 @@ For each, state "what becomes rigorous if we add it" and "what hole is left if w
 # S3 Core assumptions
 ## 1. Leading theory
 ## 2. Assumption list
-| # | Assumption (normalized) | Mathematical content | Type | Testability | Basis | New/existing |
-| A1 | ... | ... | preference | not testable | literature [VERIFIED] | existing |
+| # | Assumption (normalized) | Mathematical content | Type | Testability | Support type | Source | How it supports (link) | New/existing |
+| A1 | ... | ... | preference | not testable | S1 classic | ... [VERIFIED] | <the property it provides + why this model needs it> | existing |
+
+> **Evidence-based modeling (Global Rule 3 / gate G8):** the *How it supports (link)* cell must
+> name the property the source provides and why the model needs it — a bare citation is not
+> evidence. Support types and anti-patterns: `references/evidence_based_modeling.md`.
 ## 3. Assumption conflict check
 | Assumption pair | Conflict? | Consequence if violated | Handling |
 ## 4. Assumptions dropped and why
@@ -199,6 +203,7 @@ For each, state "what becomes rigorous if we add it" and "what hole is left if w
 - [ ] The user confirmed the added assumptions (the model did not add them unilaterally)
 - [ ] Parameters ≤ 5 and endogenous variables ≤ 3 (the parsimony constraint); exceeding it requires justification
 - [ ] **Simplicity check (principle 1):** each added assumption *earns its place* — it changes a conclusion or a comparative-static sign. An assumption that only adds notation without moving any result should be dropped; a beautiful model is the smallest one that still carries the mechanism.
+- [ ] **Evidence check (principle 3):** each assumption carries a support type + source **and** a link sentence saying *how* it supports the model here. Unsupported assumptions are either anchored or labelled as an own (S5) construction.
 
 ### Common traps
 - An assumption like "parents are rational", which is not operational → it must be converted into a condition that can be written into a utility function.
@@ -260,9 +265,12 @@ S4's modeling and solving **must** follow the "four-step method" (full method in
 | Step 2 Classic form | Standard functions and minimal variable set chosen | Mechanism visible at a glance |
 | (Step 3 / 4 → see S7) | — | — |
 ## 2. Environment and timing
-## 3. Individual optimization problems (basis per equation)
-| Eq. | Formula | Basis |
-| (1) | max_{x} U(x) = ... | standard utility maximization, see [VERIFIED] reference |
+## 3. Individual optimization problems (basis per equation — with the link)
+| Eq. | Formula | Support type | Source | How it supports (link sentence) |
+| (1) | max_{x} U(x) = ... | S1 classic | ... [VERIFIED] | <the property it provides + why this model needs it> |
+## 3.5 Evidence table (E-table) — required by Global Rule 3 / gate G8
+| # | Key item | Form / statement | Support type | Source | How it supports (link) | Checkable implication |
+| E1 | utility functional form | u = ... | S1 + S4 | ... [VERIFIED] | <concavity ⇒ interior solution; keeps the participation margin> | e.g. linear demand p = θ − γq |
 ## 4. Equilibrium definition
 ## 5. Solution
 ### 5.1 First-order conditions
@@ -278,7 +286,8 @@ S4's modeling and solving **must** follow the "four-step method" (full method in
 
 ### Self-check
 - [ ] The notation table is complete; each symbol has exactly one meaning
-- [ ] Every equation has a stated basis (literature / textbook / own construction + label)
+- [ ] Every equation has a stated basis (literature / textbook / own construction + label) **with a link sentence saying how it supports** — not a bare citation
+- [ ] The **evidence table (E-table, `## 3.5`)** is complete: one row per key content item, each with a support type, source, link and checkable implication (gate G8)
 - [ ] Second-order conditions checked; corner solutions discussed or ruled out
 - [ ] The closed form is verified by numerical back-substitution (state the order of magnitude of the error)
 - [ ] Propositions are separated from identities; 2–4 propositions
@@ -313,7 +322,7 @@ S4's modeling and solving **must** follow the "four-step method" (full method in
 3. **If the issue is local** (a typo, an algebraic slip that changes no direction of any conclusion): fix it directly, write back to the upstream file, and log the fix in `S5`.
 4. **If the issue is substantive** (a sign is overturned, a proposition fails): stop per the gate protocol and tell the user, offering:
    ① go back to S3 and change an assumption ② go back to S4 and change the setup ③ weaken the proposition ④ accept it as a "boundary condition" and disclose it.
-5. **Pre-delivery audit (gate G7).** Before you close S5, run `scripts/audit_model.py --lint spec_lint.json --solver <solver specs> --scan <deliverables> --claims <report>` and confirm **0 FAIL**. A non-zero FAIL means a defect class that has actually occurred in practice (a value outside its domain, one symbol with two values, Markdown left inside LaTeX, an over-claimed review); treat it like any other check failure — fix, write back, do not proceed to S6.
+5. **Pre-delivery audit (gates G7 + G8).** Before you close S5, run `scripts/audit_model.py --lint spec_lint.json --solver <solver specs> --scan <deliverables> --claims <report> --evidence S4_model.md S6_model_report.md` and confirm **0 FAIL**; then read the `evidence` WARNs and resolve them (they flag a deliverable that contains equations but no stated basis / E-table). A non-zero FAIL means a defect class that has actually occurred in practice (a value outside its domain, one symbol with two values, Markdown left inside LaTeX, an over-claimed review); treat it like any other check failure — fix, write back, do not proceed to S6.
 
 ### Delivery template (`S5_checks.md`)
 
@@ -332,6 +341,7 @@ S4's modeling and solving **must** follow the "four-step method" (full method in
 - [ ] All five checks carry **concrete evidence**, not "no problems found"
 - [ ] All fixes were written back to the upstream files (S3/S4) — not only into S5
 - [ ] The disposition of substantive issues was confirmed by the user
+- [ ] **Evidence check (gate G8):** the E-table is complete and every row's *How it supports* cell carries a real link sentence; `audit_model.py --evidence` returned no WARN
 
 ### Common traps
 - Checking your own work: the check must **re-derive independently** (ignore S4's steps; re-derive from the assumptions and then compare).
@@ -542,7 +552,7 @@ Disagreement index: 0.XX  |  Fleiss κ = 0.XX (agreement: moderate/substantial�
 4. **Reference gate**: only `[VERIFIED]` references may enter `thebibliography`; delete anything unverified,
    and produce `S9_references_check.md` recording each entry's verification source or the reason for exclusion.
 5. **Wording gate**: check the whole text for "we prove" describing a numerical result, "generally" describing a finite grid, "robust" describing a single point.
-6. **Audit gate (G7) before you finalize.** Run `scripts/audit_model.py` over the symbol table, the solver specs and the deliverables; the paper must reach **0 FAIL** (Markdown-in-LaTeX, dangling `\ref`, an over-claimed review, and a `must not claim` section are all checked here). Do not call the paper "done" until it is clean.
+6. **Audit gates (G7 + G8) before you finalize.** Run `scripts/audit_model.py --evidence S4_model.md S6_model_report.md` over the symbol table, the solver specs and the deliverables; the paper must reach **0 FAIL** (Markdown-in-LaTeX, dangling `\ref`, an over-claimed review, and a `must not claim` section are all checked here). Do not call the paper "done" until it is clean.
 7. Compile: `pdflatex -interaction=nonstopmode S9_paper.tex` twice (for cross-references);
    check the `.log` for lines starting with `!`; on success confirm the PDF exists.
 7. If no pdflatex is available: output the `.tex` plus `README_compile.md`, and **never fabricate a PDF**.

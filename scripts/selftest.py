@@ -297,6 +297,35 @@ def main():
     rc, d = run_audit(["--claims", c_ok, "--require", "NOT-PRESENT-STRING"])
     check("audit: missing required text is flagged", has_fail(d, "claims"), True)
 
+    # ---------- 11. audit_model: evidence-based modeling (gate G8) ----------
+    def has_warn(data, category=None, needle=None):
+        for it in data["issues"]:
+            if it["level"] != "warn":
+                continue
+            if category and it["category"] != category:
+                continue
+            if needle and needle not in it["message"]:
+                continue
+            return True
+        return False
+
+    ev_bad = os.path.join(tmp, "S4_evidence_bad.md")
+    with io.open(ev_bad, "w", encoding="utf-8") as f:
+        f.write("# S4 Model\n\n$u = \\theta q - \\frac{\\gamma}{2}q^2$\n\nmax_{q} u(q)\n")
+    rc, d = run_audit(["--evidence", ev_bad])
+    check("audit: equations without a stated basis are warned (G8)",
+          has_warn(d, "evidence"), True)
+
+    ev_ok = os.path.join(tmp, "S4_evidence_ok.md")
+    with io.open(ev_ok, "w", encoding="utf-8") as f:
+        f.write("# S4 Model\n\n$u = \\theta q - \\frac{\\gamma}{2}q^2$\n\n"
+                "| Key item | Support type | Source | How it supports |\n"
+                "|---|---|---|---|\n"
+                "| utility form | S1 + S4 | ... [VERIFIED] | concave => interior solution, closed form |\n")
+    rc, d = run_audit(["--evidence", ev_ok])
+    check("audit: an evidence table suppresses the warn (G8)",
+          has_warn(d, "evidence"), False)
+
     # ---------- output ----------
     n_fail = sum(1 for ok, *_ in RESULTS if not ok)
     lines = ["# econ-modeling-flash self-test report", "",

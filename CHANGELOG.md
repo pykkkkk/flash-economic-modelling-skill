@@ -2,6 +2,18 @@
 
 All notable changes to this skill are documented here. Versions follow [Semantic Versioning](https://semver.org).
 
+## [Unreleased]
+
+### Added
+- **Evidence-based modeling** as a binding principle (Global Rule 3, gate **G8**): every functional form, key assumption, parameter restriction and major modeling choice must carry a support source **and** a link sentence stating *how* it supports the model. A bare citation is not evidence.
+  - New reference `references/evidence_based_modeling.md`: support types (S1 classic / S2 textbook / S3 stylized fact / S4 property requirement / S5 own construction), the "how it supports" link sentence, the required evidence table (E-table), anti-patterns and a checklist.
+  - `SKILL.md`: the Rigour constraint and Global Rule 3 rewritten; new gate **G8 Grounding**; resource index and the S4 workflow row/notes updated.
+  - `references/steps.md`: the S3 assumption table gained support-type / source / "how it supports" columns; the S4 delivery template gained an **E-table** (`## 3.5`); S4 and S5 self-checks and the S5 audit command gained the evidence check.
+  - `references/modeling_cookbook.md`: new §1.1 "Evidence-based modeling".
+  - `scripts/audit_model.py`: new `--evidence FILE` check (WARN when a deliverable contains equations but states no basis).
+  - `scripts/selftest.py`: new regression cases for the evidence check.
+  - `README.md` / `README.zh-CN.md`: gates 7 → 8, G8 row added.
+
 ## [1.1.1] - 2026-09-20
 
 ### Changed

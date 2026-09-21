@@ -9,10 +9,10 @@
 **From a real-world phenomenon to a defensible economic model — in 9 guided steps.**
 
 *A beginner-friendly, research-grade toolkit for building small economic models.*
-*It comes with a built-in rigour armor: seven quality gates, a mandatory pre-delivery audit, and a simulated expert review.*
+*It comes with a built-in rigour armor: eight quality gates, a mandatory pre-delivery audit, and a simulated expert review.*
 
 ![Workflow](https://img.shields.io/badge/workflow-9%20steps-2ea44f)
-![Quality gates](https://img.shields.io/badge/quality%20gates-7-blue)
+![Quality gates](https://img.shields.io/badge/quality%20gates-8-blue)
 ![Audit](https://img.shields.io/badge/pre--delivery%20audit-0%20FAIL-orange)
 ![Self-test](https://img.shields.io/badge/self--test-55%2F55-brightgreen)
 ![Built with](https://img.shields.io/badge/built%20with-Python%20%C2%B7%20sympy%20%C2%B7%20matplotlib-3776AB)
@@ -63,7 +63,7 @@ Most "AI, build me a model" flows hand you equations and stop. This one hands yo
 | Equations | "looks about right" | **basis per equation + independent re-derivation + numerical back-substitution (error < 1e-9)** |
 | Claims | confidently stated | **epistemic labels: analytical result · numerical illustration · mechanism sketch** |
 | Literature | plausible-looking | **online-verified `[VERIFIED]` only — fabricated citations are blocked** |
-| Delivery | "Done!" | **7 gates + a mandatory audit (0 FAIL) before it may be called done** |
+| Delivery | "Done!" | **8 gates + a mandatory audit (0 FAIL) before it may be called done** |
 | Revisions | silent | **S8.1 re-review: every change is re-scored, every delta reported** |
 
 ---
@@ -131,7 +131,7 @@ Every project runs the same spine. Each step has a **purpose, a scripted interac
 
 This is where the skill earns its keep. Before any deliverable may be called "done", it passes the following.
 
-### The 7 quality gates
+### The 8 quality gates
 
 | Gate | Question it asks | If it fails |
 |:---:|---|---|
@@ -142,11 +142,12 @@ This is where the skill earns its keep. Before any deliverable may be called "do
 | **G5 · Evidence** | Is every reference `[VERIFIED]`? Are numerical results labelled as such? | Verify or delete |
 | **G6 · Wording** | Any "we prove" about a number, "in general" about a grid, "robust" about a point? | Rewrite the wording |
 | **G7 · Audit** | Did `audit_model.py` return **0 FAIL**? Post-S8 revision re-reviewed? | Run the audit + self-test; **do not finalize** |
+| **G8 · Grounding** | Does every functional form / assumption / parameter restriction carry a source **and** a "how it supports" link? Is the evidence table complete? | Go back to S3/S4; anchor it or drop it |
 
 ### The non-negotiable Global Rules
 
 - **No fabricated citations.** Every reference is verified online this session; unverifiable ones are blocked from the paper.
-- **Every equation has a basis** — literature, textbook, institutional fact, or an explicitly labelled "for tractability" assumption.
+- **Evidence-based modeling.** Every functional form, assumption and parameter restriction needs a source **and** a sentence saying *how* it supports the model — a bare citation is not evidence.
 - **Honest epistemic labels.** Analytical result ≠ numerical illustration ≠ mechanism sketch. Never blurred.
 - **Degrade, don't fake.** If no closed form exists, the skill *says so* and reports a numerical illustration instead of inventing a proof.
 - **Audit every change.** After *any* edit, the audit and self-test are re-run. A revision that hasn't been re-audited is never called finished.
@@ -158,8 +159,8 @@ This is where the skill earns its keep. Before any deliverable may be called "do
 |---|---|
 | `scripts/econ_solve.py` | symbolic solve · comparative statics · notation lint · sensitivity sweeps & plots |
 | `scripts/review_score.py` | S8/S8.1 score aggregation, banding, Fleiss-κ disagreement diagnosis |
-| `scripts/audit_model.py` | **pre-delivery audit (gate G7):** symbol-table completeness, parameter consistency, numeric regression after a revision, deliverable hygiene, claim safety |
-| `scripts/selftest.py` | **55 regression cases** guarding the parser/solver/reviewer/auditor — *run before first use and after any change* |
+| `scripts/audit_model.py` | **pre-delivery audit (gates G7 + G8):** symbol-table completeness, parameter consistency, numeric regression after a revision, deliverable hygiene, claim safety, **evidence-based grounding** (`--evidence`) |
+| `scripts/selftest.py` | **57 regression cases** guarding the parser/solver/reviewer/auditor — *run before first use and after any change* |
 
 ### And a paper trail you can audit
 

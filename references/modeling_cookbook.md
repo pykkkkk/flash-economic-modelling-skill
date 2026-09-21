@@ -35,6 +35,23 @@
 - Do not mix two preference systems in one model (e.g. quasi-linear here, Cobb-Douglas there)
 - Do not use parameters with no economic meaning (e.g. an "adjustment coefficient" without saying what it represents)
 
+### 1.1 Evidence-based modeling (a hard constraint)
+
+Every functional form, key assumption, parameter restriction and major modeling choice must carry a **support source** *and* a **link sentence** saying *how* that source supports it — **a bare citation is not evidence**. `S4_model.md` and `S6_model_report.md` carry an **evidence table (E-table)**. Full specification: `references/evidence_based_modeling.md`; enforced by gate **G8**.
+
+| Support type | Meaning |
+|---|---|
+| **S1** classic literature | a standard model / theorem already establishes the form |
+| **S2** textbook | standard pedagogy (micro / IO / contract theory / growth) |
+| **S3** stylized fact / institution | the form encodes a documented regularity |
+| **S4** property requirement | the model needs concavity / monotonicity / Inada / single-crossing |
+| **S5** own construction | no anchor exists → label it and give a checkable implication |
+
+**Link sentence = source + the property it provides + why this model needs that property.**
+Reject: "quadratic utility (Smith, 2019)". Accept: "quadratic utility = a second-order Taylor approximation of a smooth concave utility — it preserves the participation margin and yields a closed form."
+
+Compatible with §1: an item must earn its place **twice** — by changing a conclusion (parsimony) *and* by carrying a support source (this rule).
+
 ---
 
 ## 2. Notation conventions

@@ -2,7 +2,7 @@
 
 All notable changes to this skill are documented here. Versions follow [Semantic Versioning](https://semver.org).
 
-## [Unreleased]
+## [1.1.2] - 2026-09-21
 
 ### Added
 - **Evidence-based modeling** as a binding principle (Global Rule 3, gate **G8**): every functional form, key assumption, parameter restriction and major modeling choice must carry a support source **and** a link sentence stating *how* it supports the model. A bare citation is not evidence.
